@@ -126,8 +126,9 @@ spring:
         predicates:
         - Host=**.somehost.org,**.anotherhost.org
 ```
-还支持URI模板,例如:{sub}.myhost.org.
-如请求值为www.somehost.org、beta.somehost.org或者www.anotherhost.org的Host头,则匹配.
+还支持URI模板,例如:{sub}.myhost.org.</br>
+如请求值为www.somehost.org、beta.somehost.org或者www.anotherhost.org的Host头,则匹配.</br>
+此断言将URI模板变量(如前面示例中定义的sub)提取为名称和值的映射,并使用 ServerWebExchangeUtils.URI_TEMPLATE_VARIABLES_ATTRIBUTE 中定义的键将其放置在ServerWebExchange.getAttributes()中.然后,这些值可供网关筛选器工厂使用.</br>
 
 #### 7.Method路由断言工厂
 
