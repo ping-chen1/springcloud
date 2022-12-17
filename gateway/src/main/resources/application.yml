@@ -1,0 +1,11 @@
+server:
+  port: 9010
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: after-route
+          uri: https://www.baidu.com
+          predicates:
+            - Method=GET,POST
+            - Path=/s/**
