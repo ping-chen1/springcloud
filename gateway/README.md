@@ -88,10 +88,46 @@ spring:
 ```
 上述例子路由匹配发生在2017-01-20T17:42:47.789-07:00[America/Denver]和2017-01-21T17:42:47.789-07:00[America/Denver]之间的所有请求.
 #### 4.Cookie路由断言工厂
-Cookie路由断言工厂提供两个参数
+Cookie路由断言工厂提供两个参数,cookie参数名和java正则表达式,该断言匹配cookie名称值为正则表达式的请求,如下示例:
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: cookie_route
+        uri: https://example.org
+        predicates:
+        - Cookie=chocolate, ch.p
+```
+上述例子表示匹配请求种cookie的名称为chocolate,符合正则表达式为ch.p的所有请求
 #### 5.Header路由断言工厂
+Header路由断言工厂提供两个参数,header参数名和java正则表达式,该断言匹配header名称为符合正则表达式的值,如下示例:
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: header_route
+        uri: https://example.org
+        predicates:
+        - Header=X-Request-Id, \d+
+```
+上述示例表示匹配请求中header参数为X-Request-Id,值符合\d+的所有请求
 
 #### 6.Host路由断言工厂
+Host路由断言工厂,提供一个参数,一个hostname列表的参数,如下示例:
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: host_route
+        uri: https://example.org
+        predicates:
+        - Host=**.somehost.org,**.anotherhost.org
+```
+还支持URI模板,例如:{sub}.myhost.org.
+如请求值为www.somehost.org、beta.somehost.org或者www.anotherhost.org的Host头,则匹配.
 
 #### 7.Method路由断言工厂
 
