@@ -210,4 +210,56 @@ spring:
 
 ### 3.3.Filter(过滤器）
 路由过滤器允许修改传入的Http request请求和返回的Http response响应.作用域为特定路由.SpringCloud Gateway提供了多种GatewayFilter工厂.
-#### 3.3.1.AddRequestHeader GatewayFilter工厂
+#### 3.3.1.AddRequestHeader过滤器工厂
+AddRequestHeader过滤器工厂添加一个头name和value的参数.如下示例:
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: add_request_header_route
+        uri: https://example.org
+        filters:
+        - AddRequestHeader=X-Request-red, blue
+```
+上述例子向所有的请求头中添加X-Request-red:blue
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: add_request_header_route
+        uri: https://example.org
+        predicates:
+        - Path=/red/{segment}
+        filters:
+        - AddRequestHeader=X-Request-Red, Blue-{segment}
+```
+#### 3.3.2.AddRequestParameter过滤器工厂
+AddRequestParameter过滤工厂添加一个name和value的参数.如下所示:
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: add_request_parameter_route
+        uri: https://example.org
+        filters:
+        - AddRequestParameter=red, blue
+```
+上述例子向所有的请求中添加red=blue的参数
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: add_request_parameter_route
+        uri: https://example.org
+        predicates:
+        - Host: {segment}.myhost.org
+        filters:
+        - AddRequestParameter=foo, bar-{segment}
+```
+#### 3.3.3.AddResponseHeader过滤器工厂
+
+
