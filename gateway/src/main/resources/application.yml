@@ -3,9 +3,33 @@ server:
 spring:
   cloud:
     gateway:
+      globalcors: # 跨域设置
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       routes:
-        - id: after-route
-          uri: https://www.baidu.com
+        - id: myCookie-route
+          uri: https://news.baidu.com
           predicates:
-            - Method=GET,POST
-            - Path=/s/**
+            - Cookie=myCookie,myCookie
+        - id: myCookie2-route
+          uri: https://news.baidu.com/guoji
+          predicates:
+            - name: Cookie
+              args:
+                name: newCookie
+                regexp: newCookie
+        - id: after-route
+          uri: https://www.iqiyi.com/
+          predicates:
+            - After=2022-12-18T10:02:48.342+08:00[Asia/Shanghai]
+        - id: before-route
+          uri: https://www.iqiyi.com/dianying
+          predicates:
+            - Before=2022-12-18T18:02:48.342+08:00[Asia/Shanghai]
+        - id: between-route
+          uri: https://www.iqiyi.com/dianshiju
+          predicates:
+            - Between=2022-12-19T10:02:48.342+08:00[Asia/Shanghai],2022-12-19T18:02:48.342+08:00[Asia/Shanghai]

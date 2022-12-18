@@ -29,6 +29,7 @@ spring:
         - Cookie=mycookie,mycookievalue
 ```
 上述简单例子定义了一个id为after_route的路由,Cookie的断言工厂,cookie的名字为mycookie,值为匹配mycookievalue
+<img src="D:\springcloud\gateway\img\img.png"/>
 ### 2.2.展开式配置
 ```yaml
 spring:
@@ -40,10 +41,11 @@ spring:
         predicates:
         - name: Cookie
           args:
-            name: mycookie
-            regexp: mycookievalue
+            name: newCookie
+            regexp: newCookie
 ```
 上述简单例子定义了一个id为after_route的路由,Cookie的断言工厂,cookie的名字为mycookie,值为匹配mycookievalue
+<img src="D:\springcloud\gateway\img\企业微信截图_16713286074644.png"/>
 ## 三.SpringCloud Gateway 三大核心概念
 ### 3.1.Route(路由)
 
@@ -261,5 +263,39 @@ spring:
         - AddRequestParameter=foo, bar-{segment}
 ```
 #### 3.3.3.AddResponseHeader过滤器工厂
-
-
+AddResponseHeader过滤器工厂添加一个响应头name和value的参数.如下示例:
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: add_response_header_route
+        uri: https://example.org
+        filters:
+        - AddResponseHeader=X-Response-Red, Blue
+```
+上述例子向所有的响应头中添加X-Response-Red=Blue的参数
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: add_response_header_route
+        uri: https://example.org
+        predicates:
+        - Host: {segment}.myhost.org
+        filters:
+        - AddResponseHeader=foo, bar-{segment}
+```
+#### 3.3.4.DedupeResponseHeader过滤器工厂
+DedupeResponseHeader过滤器工厂提供一个name的参数和一个可选的strategy参数,去除响应头中的参数,如下示例:
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: dedupe_response_header_route
+        uri: https://example.org
+        filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+```
