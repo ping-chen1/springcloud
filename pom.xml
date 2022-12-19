@@ -13,6 +13,7 @@
         <module>eureka-server</module>
         <module>payment-server</module>
         <module>gateway</module>
+        <module>consul</module>
     </modules>
 
     <properties>
