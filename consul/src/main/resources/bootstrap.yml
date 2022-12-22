@@ -1,0 +1,59 @@
+server:
+  port: 9011
+spring:
+  application:
+    name: consul-service
+  profiles:
+    active: dev
+  cloud:
+    consul:
+      host: 192.168.44.169 #consul地址,默认localhost
+      #scheme: HTTP # HTTP还是HTTPS
+      port: 8500 #consul端口,默认8500
+      enabled: true #是否使用consul,默认true
+        #tls: #传输层安全性协议
+        #key-store-instance-type: dks #密钥类型,JKS, JCEKS, PKCS12, PKCS11, DKS
+        #key-store-path: #密钥库地址
+        #key-store-password: # 密钥库密码
+        #certificate-path: # 证书地址
+      #certificate-password: #证书密码
+      discovery:
+        #acl-token: #Consul的认证用户、访问权限
+        tags: app=${spring.application.name},env=${spring.profiles.active},boot=2,project=consul-service
+        enabled: true #是否启用服务发现
+        #management-tags:
+        health-check-path: /actuator/health #健康检查地址,默认为/actuator/health
+        #health-check-url: #自定义运行状况检查URL以覆盖默认值。
+        #health-check-headers: #健康检查头信息
+        health-check-interval: 15s #健康检查频率,默认10s一次
+        health-check-timeout: 15s # 健康检查超时时间
+        health-check-critical-timeout: 15s #取消注册的超时时间
+          #ip-address: #访问服务时使用的ip地址
+          #hostname: #访问服务时使用的hostname
+          #port:
+          #management-port:
+          #lifecycle:
+        #enabled: true
+        #prefer-agent-address: false #默认为false
+        prefer-ip-address: true #默认false
+        #catalog-services-watch-delay: #调用consul watch的延迟时间, 默认1000
+        #catalog-services-watch-timeout: #调用consul watch的超时时间,默认2
+        service-name: app-${spring.application.name}-${spring.profiles.active}
+        instance-id: m-${spring.cloud.client.ip-address}-${spring.application.name}-${spring.cloud.consul.host}-${spring.cloud.consul.port}
+        #instance-zone: #服务实例区域
+        #instance-group: #服务实例组
+        include-hostname-in-instance-id: false #注册服务时是否包含默认的实例id,默认false
+        consistency-mode: default # 默认default
+        #default-zone-metadata-name: #默认zone
+        scheme: http #默认http
+        #management-suffix: management #默认management
+        #server-list-query-tags:
+        #datacenters:
+        #default-query-tag:
+        query-passing: false #默认false
+        register: true #默认true
+        deregister: true # 默认true
+        register-health-check: true # 默认true
+        fail-fast: true #默认true
+        health-check-tls-skip-verify: true # 默认空
+        order: 0
