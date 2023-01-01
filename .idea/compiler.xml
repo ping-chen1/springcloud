@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="payment-server" />
+        <module name="consul" />
         <module name="order-manager" />
         <module name="eureka-server" />
         <module name="gateway" />
-        <module name="consul" />
       </profile>
     </annotationProcessing>
   </component>

@@ -57,3 +57,6 @@ spring:
         fail-fast: true #默认true
         health-check-tls-skip-verify: true # 默认空
         order: 0
+management:
+  server:
+    port: 4452

@@ -43,3 +43,42 @@ spring:
 如果使用 Spring Cloud Consul Config,则需要将上述值放在bootstrap.yml而不是 application.yml中.
 默认service-name= ${spring.application.name}, instance-id=Spring 上下文id和port = ${server.port}.
 可以通过设置spring.cloud.consul.discovery.enabled=false禁用客户端.当设置spring.cloud.discovery.enabled=false时Consul Discovery Client也会被禁用.
+可用通过设置:spring.cloud.consul.discovery.register=false来禁止注册服务.
+#### 4.2.1.将管理注册为单独的服务
+当管理服务器端口设置为与应用程序端口不同的端口时,通过设置management.server.port属性,管理服务将注册为与应用程序服务不同的服务.
+```yaml
+spring:
+  application:
+    name: myApp
+management:
+  server:
+    port: 4452
+```
+上述例子将会注册两个服务:
+应用程序服务:
+```properties
+ID: myApp
+Name: myApp
+```
+管理服务:
+```properties
+ID: myApp-management
+Name: myApp-management
+```
+管理服务也可以继承应用程序服务的服务id和服务名:
+```yaml
+spring:
+  application:
+    name: myApp
+management:
+  server:
+    port: 4452
+spring:
+  cloud:
+    consul:
+      discovery:
+        instance-id: custom-service-id
+        serviceName: myprefix-${spring.application.name}
+```
+#### 4.2.2.HTTP健康检查
+默认情况下Consul服务的健康检查地址为:/actuator/health
